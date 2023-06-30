@@ -56,3 +56,6 @@ MANIFEST
 # Environment
 .env
 .envrc
+
+# Exclusions
+!pyscaffold.cfg
