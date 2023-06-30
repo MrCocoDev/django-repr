@@ -40,8 +40,21 @@ django-better-repr
 This project seeks to make reprs of Django models more human-friendly. This
 project is heavily inspired by https://github.com/dan-passaro/django-auto-repr .
 
+Installation
+============
+
+::
+
+   pip install django-better-repr
+
+And that's it!
+
 How to use:
 ===========
+
+The repr logic in this library is designed to produce the smallest, most meaningful repr possible
+for your Django models. That means that fields which aren't set won't show up in the repr. This
+should reduce noise and let you get the most value out of your reprs.
 
 ::
 
