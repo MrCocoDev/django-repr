@@ -37,7 +37,52 @@ django-better-repr
     Django model reprs for humans!
 
 
-A longer description of your project goes here...
+This project seeks to make reprs of Django models more human-friendly. This
+project is heavily inspired by https://github.com/dan-passaro/django-auto-repr .
+
+How to use:
+===========
+
+::
+
+   from django_better_repr import better_repr
+
+   @better_repr
+   class MyDjangoModel(models.Model):
+       my_field = models.CharField(max_length=16)
+
+Or, if class inheritance is more your speed:
+
+::
+
+   from django_better_repr.bases import BetterRepr
+
+   class MyDjangoModel(BetterRepr, models.Model):
+       my_field = models.CharField(max_length=16)
+
+Then load up your favorite shell and run:
+
+::
+
+   MyDjangoModel.objects.create(my_field='Hello, world!')
+   >>> MyDjangoModel(my_field='Hello, world!')
+
+If your model has a lot of fields then the repr will automatically switch to
+pretty printing. This can be configured via settings.
+
+Configuration
+=============
+
+If you want to customize the behavior of the library, below are all the options.
+
+::
+
+   # settings.py
+   BETTER_REPR_CONFIG = {
+      'ENABLE_MULTILINE_REPRS': True,  # bool (default: True), whether or not to allow multiline reprs
+      'SINGLE_LINE_PARTS_LIMIT': 4,  # int (default: 4), the number of fields a repr can have before switching to multi line
+      'MULTILINE_WHITESPACE': '\t',  # str (default: '\t'), the whitespace string to use for multiline reprs
+   }
 
 
 .. _pyscaffold-notes:
