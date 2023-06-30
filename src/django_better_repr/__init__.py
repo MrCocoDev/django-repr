@@ -20,7 +20,8 @@ finally:
 
 def better_repr(klass: type = None, /, ):
     def decorator(kls: type):
-        kls.__bases__ = (BetterRepr, *kls.__bases__)
+        if BetterRepr not in kls.__bases__:
+            kls.__bases__ = (BetterRepr, *kls.__bases__)
         return kls
 
     if klass:

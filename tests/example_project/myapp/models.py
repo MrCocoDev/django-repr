@@ -29,3 +29,8 @@ class FourOrMoreFields(models.Model):
     four = models.ForeignKey(to=JustForFKs, on_delete=models.CASCADE)
     five = models.ManyToManyField(to=JustForM2Ms)
     six = models.FloatField()
+
+
+class WithoutDecorator(models.Model):
+    one = models.CharField(max_length=16)
+    two = models.CharField(max_length=32, default='Default', null=True)

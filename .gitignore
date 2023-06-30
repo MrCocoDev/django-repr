@@ -57,5 +57,8 @@ MANIFEST
 .env
 .envrc
 
+# Django
+tests/example_project/db.sqlite3
+
 # Exclusions
 !pyscaffold.cfg

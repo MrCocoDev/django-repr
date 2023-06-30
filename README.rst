@@ -47,7 +47,20 @@ Installation
 
    pip install django-better-repr
 
-And that's it!
+If you want to automatically improve the repr of all models in your project then add `django_better_repr`
+to your installed apps.
+
+::
+
+   # settings.py
+   INSTALLED_APPS = [
+      ...,
+      'django_better_repr',
+      ...,
+   ]
+
+Want to customize which apps get configured but don't want to decorate each class individually?
+Head on down to the **Configuration** section.
 
 How to use:
 ===========
@@ -95,6 +108,8 @@ If you want to customize the behavior of the library, below are all the options.
       'ENABLE_MULTILINE_REPRS': True,  # bool (default: True), whether or not to allow multiline reprs
       'SINGLE_LINE_PARTS_LIMIT': 4,  # int (default: 4), the number of fields a repr can have before switching to multi line
       'MULTILINE_WHITESPACE': '\t',  # str (default: '\t'), the whitespace string to use for multiline reprs
+      'AUTO_CONFIGURE_INCLUDE_MODELS': [],  # list (default: a sentinel for all models), which models to auto include if the auto configuration application is added to INSTALLED_APPS
+      'AUTO_CONFIGURE_EXCLUDE_MODELS': [],  # list (default: []), which models to exclude from the auto setup if the auto configuration application is added to INSTALLED_APPS
    }
 
 

@@ -4,6 +4,7 @@ from tests.example_project.myapp.models import (
     FourOrLessFields,
     FourOrMoreFields,
     JustForFKs,
+    WithoutDecorator,
 )
 
 
@@ -68,4 +69,15 @@ def test_with_four_or_more_fields():
     actual = repr(instance)
     expected = "FourOrMoreFields(\n\tone='one',\n\ttwo='two',\n\tthree='three',\n\tfour_id=1,\n\tsix=99.9,\n)"
 
+    assert actual == expected
+
+
+@pytest.mark.django_db
+def test_auto_configure_works():
+    instance = WithoutDecorator.objects.create(
+        one='one',
+        two='two',
+    )
+    actual = repr(instance)
+    expected = "WithoutDecorator(id=1, one='one', two='two')"
     assert actual == expected
