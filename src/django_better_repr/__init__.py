@@ -1,5 +1,7 @@
 import sys
 
+from src.django_better_repr.bases import BetterRepr
+
 if sys.version_info[:2] >= (3, 8):
     # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`
     from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
@@ -14,3 +16,14 @@ except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 finally:
     del version, PackageNotFoundError
+
+
+def better_repr(klass: type = None, /, ):
+    def decorator(kls: type):
+        kls.__bases__ = (BetterRepr, *kls.__bases__)
+        return kls
+
+    if klass:
+        return decorator(klass)
+    else:
+        return decorator
