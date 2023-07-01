@@ -1,6 +1,6 @@
 import sys
 
-from src.django_better_repr.bases import BetterRepr
+from django_better_repr.bases import BetterRepr
 
 if sys.version_info[:2] >= (3, 8):
     # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`

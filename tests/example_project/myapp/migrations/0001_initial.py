@@ -3,7 +3,7 @@
 import django.db.models.deletion
 from django.db import migrations, models
 
-import src.django_better_repr.bases
+import django_better_repr.bases
 
 
 class Migration(migrations.Migration):
@@ -19,14 +19,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
             ],
-            bases=(src.django_better_repr.bases.BetterRepr, models.Model),
+            bases=(django_better_repr.bases.BetterRepr, models.Model),
         ),
         migrations.CreateModel(
             name='JustForM2Ms',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
             ],
-            bases=(src.django_better_repr.bases.BetterRepr, models.Model),
+            bases=(django_better_repr.bases.BetterRepr, models.Model),
         ),
         migrations.CreateModel(
             name='WithoutDecorator',
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('one', models.CharField(max_length=16)),
                 ('two', models.CharField(default='Default', max_length=32, null=True)),
             ],
-            bases=(src.django_better_repr.bases.BetterRepr, models.Model),
+            bases=(django_better_repr.bases.BetterRepr, models.Model),
         ),
         migrations.CreateModel(
             name='FourOrMoreFields',
@@ -48,7 +48,7 @@ class Migration(migrations.Migration):
                 ('five', models.ManyToManyField(to='myapp.justform2ms')),
                 ('four', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp.justforfks')),
             ],
-            bases=(src.django_better_repr.bases.BetterRepr, models.Model),
+            bases=(django_better_repr.bases.BetterRepr, models.Model),
         ),
         migrations.CreateModel(
             name='FourOrLessFields',
@@ -59,6 +59,6 @@ class Migration(migrations.Migration):
                 ('three', models.IntegerField(null=True)),
                 ('four', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='myapp.justforfks')),
             ],
-            bases=(src.django_better_repr.bases.BetterRepr, models.Model),
+            bases=(django_better_repr.bases.BetterRepr, models.Model),
         ),
     ]
