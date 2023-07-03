@@ -10,9 +10,6 @@
     .. image:: https://img.shields.io/coveralls/github/<USER>/django-better-repr/main.svg
         :alt: Coveralls
         :target: https://coveralls.io/r/<USER>/django-better-repr
-    .. image:: https://img.shields.io/pypi/v/django-better-repr.svg
-        :alt: PyPI-Server
-        :target: https://pypi.org/project/django-better-repr/
     .. image:: https://img.shields.io/conda/vn/conda-forge/django-better-repr.svg
         :alt: Conda-Forge
         :target: https://anaconda.org/conda-forge/django-better-repr
@@ -26,6 +23,12 @@
 .. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
     :alt: Project generated with PyScaffold
     :target: https://pyscaffold.org/
+.. image:: https://img.shields.io/pypi/v/django-better-repr.svg
+    :alt: PyPI-Server
+    :target: https://pypi.org/project/django-better-repr/
+.. image:: https://pepy.tech/badge/django-better-repr/month
+    :alt: Monthly Downloads
+    :target: https://pepy.tech/project/django-better-repr
 
 |
 
