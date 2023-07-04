@@ -26,6 +26,10 @@
 .. image:: https://img.shields.io/pypi/v/django-better-repr.svg
     :alt: PyPI-Server
     :target: https://pypi.org/project/django-better-repr/
+.. image:: https://github.com/MrSage/django-better-repr/actions/workflows/ci.yml/badge.svg
+    :alt: GitHub Test CI
+    :target: https://github.com/MrSage/django-better-repr/actions/workflows/ci.yml
+
 .. image:: https://pepy.tech/badge/django-better-repr/month
     :alt: Monthly Downloads
     :target: https://pepy.tech/project/django-better-repr
