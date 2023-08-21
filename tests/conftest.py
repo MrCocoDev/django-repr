@@ -7,4 +7,11 @@
     - https://docs.pytest.org/en/stable/writing_plugins.html
 """
 
-# import pytest
+import pytest
+
+from django_better_repr.config import config
+
+
+@pytest.fixture
+def better_repr_config():
+    yield config()

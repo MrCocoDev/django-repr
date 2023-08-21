@@ -81,3 +81,32 @@ def test_auto_configure_works():
     actual = repr(instance)
     expected = "WithoutDecorator(id=1, one='one', two='two')"
     assert actual == expected
+
+
+@pytest.mark.django_db
+def test_deferred_fields_are_not_loaded_by_default():
+    WithoutDecorator.objects.create(
+        one='one',
+        two='two',
+    )
+    instance = WithoutDecorator.objects.all().only('id', 'one').first()
+
+    actual = repr(instance)
+    expected = "WithoutDecorator(id=1, one='one')"
+    assert actual == expected
+
+
+@pytest.mark.django_db
+def test_deferred_fields_are_loaded(better_repr_config):
+    better_repr_config['EXCLUDE_DEFERRED_FIELDS'] = False
+    WithoutDecorator.objects.create(
+        one='one',
+        two='two',
+    )
+    instance = WithoutDecorator.objects.all().only('id', 'one').first()
+
+    actual = repr(instance)
+    expected = "WithoutDecorator(id=1, one='one', two='two')"
+    assert actual == expected
+
+    better_repr_config['EXCLUDE_DEFERRED_FIELDS'] = True
