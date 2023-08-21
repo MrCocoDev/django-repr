@@ -39,10 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tests.example_project.myapp',
     'django_better_repr',
-    'django_extensions',
 ]
-
-SHELL_PLUS = 'ipython'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
