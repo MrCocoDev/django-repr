@@ -46,6 +46,15 @@ django-better-repr
 This project seeks to make reprs of Django models more human-friendly. This
 project is heavily inspired by https://github.com/dan-passaro/django-auto-repr .
 
+What does it do?
+================
+
+::
+
+   MyDjangoModel.objects.create(my_field='Hello, world!')
+   >>> MyDjangoModel(my_field='Hello, world!')
+
+
 Installation
 ============
 
