@@ -26,10 +26,10 @@
 .. image:: https://img.shields.io/pypi/v/django-better-repr.svg
     :alt: PyPI-Server
     :target: https://pypi.org/project/django-better-repr/
-.. image:: https://github.com/MrSage/django-better-repr/actions/workflows/ci.yml/badge.svg
+.. image:: https://github.com/MrCocoDev/django-better-repr/actions/workflows/ci.yml/badge.svg
     :alt: GitHub Test CI
-    :target: https://github.com/MrSage/django-better-repr/actions/workflows/ci.yml
-.. image:: https://static.pepy.tech/badge/django-better-repr/month
+    :target: https://github.com/MrCocoDev/django-better-repr/actions/workflows/ci.yml
+.. image:: https://pepy.tech/badge/django-better-repr/month
     :alt: Monthly Downloads
     :target: https://pepy.tech/project/django-better-repr
 
@@ -46,14 +46,35 @@ django-better-repr
 This project seeks to make reprs of Django models more human-friendly. This
 project is heavily inspired by https://github.com/dan-passaro/django-auto-repr .
 
-What does it do?
-================
+.. warning::
 
-::
+    This library makes no attempts to make `eval`ing the generated `repr`s safe. Use `eval` at your own risk!
 
-   MyDjangoModel.objects.create(my_field='Hello, world!')
-   >>> MyDjangoModel(my_field='Hello, world!')
 
+Quick Caveat
+============
+
+If the Django model has not yet been saved then a model won't be equal to the `eval` of its `repr`.
+
+.. code-block:: python
+
+    from django.db import models
+
+
+    class MyModel(models.Model):
+        ...
+
+    A = MyModel()
+    B = eval(repr(A))
+
+    assert A == B
+    >>> AssertionError:
+
+If you need this behavior then make sure to save your models before taking the `repr`. This behavior is not
+the fault of this library, and there is realistically no way for this library to change this behavior. This is
+due to the implementation of Django's `Model.__eq__` (`model_eq`_).
+
+.. _model_eq: https://github.com/django/django/blob/main/django/db/models/base.py#L593
 
 Installation
 ============
@@ -65,7 +86,7 @@ Installation
 If you want to automatically improve the repr of all models in your project then add `django_better_repr`
 to your installed apps.
 
-::
+.. code-block:: python
 
    # settings.py
    INSTALLED_APPS = [
@@ -84,7 +105,7 @@ The repr logic in this library is designed to produce the smallest, most meaning
 for your Django models. That means that fields which aren't set won't show up in the repr. This
 should reduce noise and let you get the most value out of your reprs.
 
-::
+.. code-block:: python
 
    from django_better_repr import better_repr
 
@@ -103,7 +124,7 @@ Or, if class inheritance is more your speed:
 
 Then load up your favorite shell and run:
 
-::
+.. code-block:: python
 
    MyDjangoModel.objects.create(my_field='Hello, world!')
    >>> MyDjangoModel(my_field='Hello, world!')
@@ -116,7 +137,7 @@ Configuration
 
 If you want to customize the behavior of the library, below are all the options.
 
-::
+.. code-block:: python
 
    # settings.py
    BETTER_REPR_CONFIG = {
@@ -125,7 +146,6 @@ If you want to customize the behavior of the library, below are all the options.
       'MULTILINE_WHITESPACE': '\t',  # str (default: '\t'), the whitespace string to use for multiline reprs
       'AUTO_CONFIGURE_INCLUDE_MODELS': [],  # list (default: a sentinel for all models), which models to auto include if the auto configuration application is added to INSTALLED_APPS
       'AUTO_CONFIGURE_EXCLUDE_MODELS': [],  # list (default: []), which models to exclude from the auto setup if the auto configuration application is added to INSTALLED_APPS
-      'EXCLUDE_DEFERRED_FIELDS': True,  # bool (default: True), whether or not to exclude deferred fields (https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.defer) from the repr
    }
 
 

@@ -27,9 +27,8 @@ SOFTWARE.
 from functools import partial
 
 from django.db import models
-from django.utils.datastructures import ImmutableList
 
-from django_better_repr.config import config
+from django_better_repr.config import app_config
 from django_better_repr.exceptions import BetterReprException
 
 
@@ -38,7 +37,7 @@ def _repr_format_field(self, field):
         return
 
     if isinstance(field, models.ForeignKey):
-        field_name = f"{field.name}_id"
+        field_name = field.name + '_id'
     else:
         field_name = field.name
 
@@ -59,34 +58,14 @@ class BetterRepr:
     def __repr__(self):
         cls = type(self)
         try:
-            if config()['EXCLUDE_DEFERRED_FIELDS']:
-                all_fields: ImmutableList = cls._meta.fields
-                deferred_fields: set = self.get_deferred_fields()
-                fields = [f for f in all_fields if f.name not in deferred_fields]
-            else:
-                if deferred_fields := self.get_deferred_fields():
-                    self.refresh_from_db(fields=deferred_fields)
-                all_fields = cls._meta.fields
-                fields = [f for f in all_fields]
-
+            fields = cls._meta.fields
         except AttributeError as e:
             raise BetterReprException(f"{cls} does not appear to be a django model!") from e
 
-        parts = list(
-            filter(
-                None,
-                map(
-                    partial(
-                        _repr_format_field,
-                        self,
-                    ),
-                    fields,
-                ),
-            ),
-        )
-        if len(parts) > config()['SINGLE_LINE_PARTS_LIMIT'] and config()['ENABLE_MULTILINE_REPRS']:
+        parts = list(filter(None, map(partial(_repr_format_field, self), fields)))
+        if len(parts) > app_config['SINGLE_LINE_PARTS_LIMIT'] and app_config['ENABLE_MULTILINE_REPRS']:
             attrs = ',\n\t'.join(parts)
-            return f"{cls.__name__}(\n{config()['MULTILINE_WHITESPACE']}{attrs},\n)"
+            return f"{cls.__name__}(\n{app_config['MULTILINE_WHITESPACE']}{attrs},\n)"
         else:
             attrs = ', '.join(parts)
             return f'{cls.__name__}({attrs})'

@@ -4,7 +4,7 @@ from tests.example_project.myapp.models import (
     FourOrLessFields,
     FourOrMoreFields,
     JustForFKs,
-    WithoutDecorator,
+    WithoutDecorator, JustForM2Ms,
 )
 
 
@@ -83,30 +83,55 @@ def test_auto_configure_works():
     assert actual == expected
 
 
+@pytest.mark.xfail(reason="Unsaved models are not by default compared by field values")
 @pytest.mark.django_db
-def test_deferred_fields_are_not_loaded_by_default():
-    WithoutDecorator.objects.create(
+def test_repr_eval_not_saved_no_fks_no_m2ms():
+    instance = WithoutDecorator(
         one='one',
         two='two',
     )
-    instance = WithoutDecorator.objects.all().only('id', 'one').first()
-
-    actual = repr(instance)
-    expected = "WithoutDecorator(id=1, one='one')"
+    actual = instance
+    expected = eval(repr(actual))
     assert actual == expected
 
 
 @pytest.mark.django_db
-def test_deferred_fields_are_loaded(better_repr_config):
-    better_repr_config['EXCLUDE_DEFERRED_FIELDS'] = False
-    WithoutDecorator.objects.create(
+def test_repr_eval_saved_no_fks_no_m2ms():
+    instance = WithoutDecorator.objects.create(
         one='one',
         two='two',
     )
-    instance = WithoutDecorator.objects.all().only('id', 'one').first()
-
-    actual = repr(instance)
-    expected = "WithoutDecorator(id=1, one='one', two='two')"
+    actual = instance
+    expected = eval(repr(actual))
     assert actual == expected
 
-    better_repr_config['EXCLUDE_DEFERRED_FIELDS'] = True
+
+@pytest.mark.django_db
+def test_repr_eval_saved_fks_no_m2ms():
+    instance = FourOrLessFields.objects.create(
+        one='one',
+        two='two',
+        three=2,
+        four=JustForFKs.objects.create(),
+    )
+    actual = instance
+    expected = eval(repr(actual))
+
+    assert actual == expected
+    assert actual.four == expected.four
+
+
+@pytest.mark.django_db
+def test_repr_eval_saved_fks_m2ms():
+    instance = FourOrMoreFields.objects.create(
+        one='one',
+        two='two',
+        three=2,
+        four=JustForFKs.objects.create(),
+        six=99.0
+    )
+    instance.five.add(JustForM2Ms.objects.create())
+    actual = instance
+    expected = eval(repr(actual))
+    assert actual == expected
+    assert list(actual.five.all()) == list(expected.five.all())
